@@ -35,6 +35,54 @@ Pclass=['Class1','Class2','Class3']
 plt.style.use('fivethirtyeight')
 ax=sns.countplot(data=train,x="Pclass",hue="Survived",palette=hue_color)
 plt.xticks(ticks=[0,1,2],labels=Pclass)
-plt.legend(['Percentage not  survived or unknown','Perentage of survived'])
+plt.legend(['Percentage not  survived or unknown','Percentage of survived'])
 plt.gcf().set_size_inches(12,6)
 plt.show()
+
+# 3.sex
+y=train["Sex"].value_counts()
+myexplode=(0.0,0.1)
+plt.style.use("fivethirtyeight")
+mylabel=["Male","Female"]
+colors=["#E63946","#F1FAEE"]
+plt.pie(y,labels=mylabel,autopct="%1.1f%%",startangle=15,shadow=True,explode=myexplode,colors=colors)
+# Approximately 65% of the tourist were male while the remaining 35% were  female
+
+hue_color={0:"#8D99AE",1:'#ef233c'}
+sex=['Male','Female']
+plt.style.use("fivethirtyeight")
+ax=sns.countplot(data=train,x="Sex",hue="Survived",palette=hue_color)
+plt.xticks(ticks=[0,1],labels=sex)
+plt.legend(['Percentage not  survived or unknown','Percentage of survived'])
+plt.gcf().set_size_inches(12,6)
+# More males died as  compared to females
+
+# 4. Age
+sns.countplot(x=train['Survived'],hue=pd.cut(train['Age'],5))
+plt.style.use("fivethirtyeight")
+plt.gcf().set_size_inches(12,6)
+# A larger fraction of children under 16 survived than died
+# The other age group the number of diedwas hier then the number of survivors
+
+
+# 5. sibsp
+y=train["SibSp"].value_counts()
+myexplode=(0.0,0.1,0.2,0.4,0.1,0.3,0.4)
+plt.style.use("fivethirtyeight")
+mylabel=[0,1,2,3,4,5,8]
+colors=["blue","steelblue","khaki","purple","yellow","darkgreen"]
+plt.pie(y,labels=mylabel,autopct="%1.1f.%%" ,#used to label the wedges with their numeric value.
+startangle=15,explode=myexplode,#array which specifies the fraction of the radius with which to offset each wedge.
+colors=colors)
+plt.axis("equal")
+plt.gcf().set_size_inches(12,6)
+plt.show()
+# 91% of people travelled alone or with one of their sibling or spouse
+
+hue_color={0:'#555b6e',1:'#890ae'}
+plt.style.use("fivethirtyeight")
+ax=sns.countplot(data=train,x='SibSp',hue='Survived')
+plt.xticks(ticks=[0,1],labels=sex)
+plt.legend(['Percentage not  survived or unknown','Percentage of survived'])
+plt.gcf().set_size_inches(12,6)
+# Survivalchances dropped drastically if someone travelled with more than two siblings
