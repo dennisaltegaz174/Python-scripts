@@ -19,7 +19,7 @@ df.shape
 # Statistical analysis of data
 df.describe()
 df.caa.value_counts()
-# Column caa has 4 entries with the value 4 whkich is outside the range ,so replace it with themode of features
+# Column caa has 4 entries with the value 4 whkich is outside the range ,so replace it with the mode of features
 index=df[df["caa"]==4]
 index
 

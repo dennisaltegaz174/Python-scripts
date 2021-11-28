@@ -6,7 +6,7 @@ test=pd.read_csv("C:/Users/adm/Documents/Datasets/new dataset/test.csv")
 submission=pd.read_csv("C:/Users/adm/Documents/Datasets/new dataset/submission.csv")
 train.columns
 import seaborn as  sns
-from matplotlib import pyplot as plt
+from matplotlib impéort pyplot as plt
 
 # Look at missing values
 train.isnull().sum()
