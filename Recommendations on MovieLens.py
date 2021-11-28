@@ -109,3 +109,5 @@ rating_dff.head()
 
 # Filtering movie by title
 inputId = movie_dff[movie_dff['title'].isin(inputMovies['title'].tolist())]
+
+help genericpath()
