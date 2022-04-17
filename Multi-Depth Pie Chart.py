@@ -1,9 +1,9 @@
+import sys
+print (sys.path)
 import  sys,os
-sys.path.insert(0, os.path.join(os.path.abspath(sys.path[0]),"C:/Program Files/JetBrains/PyCharm Community Edition 2021.2.2","lib"))
+sys.path.insert(0, os.path.join(os.path.abspath(sys.path[0]), "C:/Users/adm/Documents/Python Scripts/PycharmProjects/pythonProject", "lib"))
 from pychartdir import *
 
-python-c "import sys; print(sys.path)"
-import num
 
 
 from pygooglechart import PieChart3D

@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 movie_dff = pd.read_csv("C:\\Users\\adm\\Documents\\Datasets\\Recommendations on MovieLens\\movie.csv")
 rating_dff = pd.read_csv("C:\\Users\\adm\\Documents\\Datasets\\Recommendations on MovieLens\\rating.csv")
 
-movies_dff.shape
+movie_dff.shape
 
 movie_dff.head()
 # Using regular expressions  to find a year stored between parenthesis
@@ -107,9 +107,58 @@ rating_dff.head()
 rating_dff = rating_dff.drop('timestamp' , 1)
 rating_dff.head()
 
+userInput = [
+                {'title':'Breakfast  Club, The','rating':5},
+               {'title':'Toy Story', 'rating':3.5},
+               {'title': 'Jumanji', 'rating' : 2},
+               {'title': 'Pulp Fiction', 'rating' : 5},
+               {'title': 'Akira' , 'rating' : 4.5}
+                ]
+inputMovies = pd.DataFrame(userInput)u
+inputMovies
 # Filtering movie by title
 inputId = movie_dff[movie_dff['title'].isin(inputMovies['title'].tolist())]
+# Then merging it  so as  to get movieId. its implicitly merging it by title.
+inputMovies = pd.merge(inputId,inputMovies)
+# Dropping information we  won't use from the imput dataframe
+inputMovies = inputMovies.drop('year',1)
+# Final input dataframe
+inputMovies
 
-help genericpath()
-mercy loves
-mercy
+# Similar users
+# filtering out users that have watched movies that the input has watched and storing it
+userSubset = rating_dff[rating_dff['movieId'].isin(inputMovies['movieId'].tolist())]
+userSubset.head()
+
+# Groupby creates several sub dataframes where they all have same value in the column specified as the parameter.
+userSubsetGroup = userSubset.groupby(['userId'])
+# Looking at one of the users e.g userID = 5
+userSubsetGroup.get_group(5)
+userSubsetGroup.head()
+
+# sorting it so that  users  with movie most in common with input will have priority.
+userSubsetGroup = sorted(userSubsetGroup,key=lambda x:len(x[1]),reverse=True)
+# checking the first 3
+userSubsetGroup[0:3]
+
+# comparing users
+# Using a subset of  top 10 users
+userSubsetGroup = userSubsetGroup[0:100]
+# store the pearson correlation in a  dictonary where the key  is the user id and the value is the coefficient.
+pearsonCorrelationDict =  {}
+# for  every user group in our subset
+for name, group in userSubsetGroup:
+    #starting by sorting input and current user group so that the values are not mixed up later on
+group =  group.sort_values(by='movieId')
+    inputMovies = inputMovies.sort_values(by = 'movieId')
+    # Getting the  N for the formula
+    nRatings = len(group)
+    # Getting the review scores for the movies that they  have in common
+    temp_df = inputMovies[inputMovies['movieId'].isin(group['movieId'].tolist())]
+    # Then store then in a temporary buffer variable in a list format to facilitate future calculation
+    tempRatingList = temp_df['rating'].tolist()
+    # Putting the  current user groups reviews in a list format
+    tempGroupList = group['rating'].tolist()
+    # now calculating the pearson correlation between two users so called x and y
+    Sxx = sum([1**2 for i in tempRatingList]) - pow(sum(tempGroupList),2)/float(nRatings)
+        Sxy = sum(i*j for i , j in zip (tempRatingList,tempGroupList)) - sum(tempRatingList)*sum(tempGroupList)/float(nRatings)
